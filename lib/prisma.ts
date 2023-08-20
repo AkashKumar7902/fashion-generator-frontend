@@ -1,5 +1,5 @@
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-const address = "https://7200-202-173-127-209.ngrok-free.app";
+const address = "localhost:19530";
 const username = "username";
 const password = "password";
 const ssl = false;

@@ -6,19 +6,22 @@ import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { shoppingCartState } from 'atoms';
 import { useRecoilState } from 'recoil';
 
-import { BookProps } from 'const';
+import { ProductProps } from 'const';
 import { currencyFormat } from 'lib/utils';
 import HalfRating from 'components/v2/Rating/HalfRating';
 
-export default function ShoopingItemCard(props: BookProps) {
-  const {
-    name,
-    price,
-    discount,
-    cloth_type,
-    image_url,
+export default function ShoopingItemCard(props: ProductProps) {
+  var {
+    json_data,
     id
   } = props;
+  json_data = JSON.parse(json_data);
+  console.log(json_data);
+  const {
+    name,
+    image_url,
+    price
+  } = json_data;
   const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -56,7 +59,7 @@ export default function ShoopingItemCard(props: BookProps) {
           src={image_url}
           alt={name}
           width={384}
-          height={140}
+          height={120}
         />
       </figure>
       <div className='card-body'>

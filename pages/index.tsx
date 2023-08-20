@@ -36,11 +36,7 @@ const Home: NextPage = () => {
         )}
         <BookList page={homePageQueryData?.page || 1} pageSize={PAGE_SIZE} />
         <div className='flex justify-center pt-6'>
-          <Pagination
-            currentPage={homePageQueryData?.page || 1}
-            pages={Math.round(homePageBookSum / PAGE_SIZE)}
-            onClick={handleClickPagination}
-          />
+          
         </div>
       </CommonLayout>
     </>

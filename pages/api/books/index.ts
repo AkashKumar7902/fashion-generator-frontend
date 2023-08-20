@@ -40,29 +40,24 @@ const bookListHandler =  async (
 }
 
 async function getBookList(req: NextApiRequest) {
-  // Querying with joins (Many to many relation).
-  const query = parseBookListQuery(req.query, true, true);
+  // const query = parseBookListQuery(req.query, true, true);
+  const cloth_type = req.query.type == undefined || req.query.type == "" ? 'tshirt' : req.query.type;
   const load = await milvusClient.loadCollectionSync({
-    collection_name: 'men_clothing',
+    collection_name: 'clothing',
   });
   console.log('Collection is loaded.', load);
-  const products : any = await milvusClient.query({
-    collection_name: "men_clothing",
-    filter: "cloth_type in ['tshirt']",
-    output_fields: ["id", "json_data"],
+  const products: any = await milvusClient.query({
+    collection_name: "clothing",
+    filter: `cloth_type in ['${cloth_type}']`,
+    output_fields: ["id", "json_data", "image_embedding"],
     limit: 10
   });
 
-  products.forEach((product:any) => {
-   product.json_data = JSON.parse(product.json_data);
-  });
-  
-  const searchParams = {
-    params: { nprobe: 1024 }
-  };
+  console.log(typeof products.image_embedding)
 
   const temp: any = await milvusClient.query({
     collection_name: "men_clothing",
+    filter: `cloth_type in ['${cloth_type}']`,
     output_fields: ["id"]
   });
   

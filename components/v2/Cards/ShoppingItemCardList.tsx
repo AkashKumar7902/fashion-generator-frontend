@@ -31,8 +31,8 @@ export default function BookList(props: BookListProps) {
             } of over ${homePageBookSum} results`}</div>
           )}
           <div className='grid grid-cols-1 gap-x-2 gap-y-10 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 xl:gap-x-8'>
-            {bookListLoadable.contents.content.map((book) => (
-              <ShoopingItemCard key={book.id} {...book} />
+            {bookListLoadable.contents.content.data.map((product) => (
+              <ShoopingItemCard key={product.id} {...product} />
             ))}
           </div>
         </>

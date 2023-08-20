@@ -1,4 +1,7 @@
 export const productType ={
     "tshirt": "tshirt",
-    "format-shirt": "formal-shirt"
+    "formal-shirt": "formal-shirt",
+    "jeans": "jeans",
+    "formal-trousers": "formal-trousers",
+    "casual-shirt": "casual-shirt",
 }

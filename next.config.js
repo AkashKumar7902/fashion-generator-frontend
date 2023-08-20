@@ -1,6 +1,6 @@
 // next.config.js
 module.exports = {
   images: {
-    domains: ["picsum.photos"],
+    domains: ["rukminim2.flixcart.com"],
   },
 };

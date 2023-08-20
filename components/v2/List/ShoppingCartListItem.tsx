@@ -11,17 +11,19 @@ import { currencyFormat, calcCartItemTotalPrice } from 'lib/utils';
 import { buyBook } from 'lib/http';
 
 export default function ShoppingCartListItem(props: shoppingCartItemProps) {
-  const {
+  var {
+    json_data,
     id,
-    title,
-    authors,
-    type,
-    price,
-    averageRating,
-    quantity,
-    stock,
-    publishedAt,
+    image_embedding,
   } = props;
+  json_data = JSON.parse(json_data);
+  const {
+    name,
+    image_url,
+    price,
+    cloth_type
+  } = json_data;
+  const quantity = 1;
   const [loading, setLoading] = React.useState(false);
 
   const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
@@ -69,18 +71,11 @@ export default function ShoppingCartListItem(props: shoppingCartItemProps) {
 
   const handleBuyClick = async () => {
     setLoading(true);
-    const response = await buyBook(id, {
-      userID: currentUserId,
-      quality: quantity,
-    });
-    if (response.error) {
-      enqueueSnackbar(`Error: ${response.error}.`, {
-        variant: 'error',
-      });
-      setLoading(false);
-      return;
-    }
-    enqueueSnackbar(`${response.content?.message}`, {
+    localStorage.removeItem('Purchased');
+    localStorage.setItem('Purchased', JSON.stringify(props
+      ));
+    setLoading(false);
+    enqueueSnackbar("purchased", {
       variant: 'success',
     });
     setLoading(false);
@@ -94,8 +89,8 @@ export default function ShoppingCartListItem(props: shoppingCartItemProps) {
       <div className='card card-side bg-base-100 shadow-xl'>
         <figure>
           <Image
-            src={`https://picsum.photos/seed/${id}/200/300`}
-            alt={title}
+            src={image_url}
+            alt={name}
             width={150}
             height={225}
           />
@@ -104,29 +99,20 @@ export default function ShoppingCartListItem(props: shoppingCartItemProps) {
           <div className='flex flex-col gap-1'>
             <p>
               <span className='text-lg font-bold pr-4'>Title:</span>
-              {title}
+              {name}
             </p>
             <p>
               <span className='text-lg font-bold pr-4'>Type:</span>
-              {type.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`)}
-            </p>
-            <p>
-              <span className='text-lg font-bold pr-4'>Publication date:</span>
-              {new Date(publishedAt).toLocaleDateString()}
+              {cloth_type}
             </p>
             <p>
               <span className='text-lg font-bold pr-4'>Price:</span>
-              {`$ ${currencyFormat(price)}`}
-            </p>
-            <p>
-              <span className='text-lg font-bold pr-4'>In stock:</span>
-              {stock}
+              {`${currencyFormat(price)}`}
             </p>
             <div className='flex justify-between'>
               <div className='join'>
                 <button
                   className='btn btn-sm join-item'
-                  disabled={quantity >= stock}
                   onClick={handleAddQty}
                 >
                   <PlusIcon className='stroke-current shrink-0 w-6 h-6' />

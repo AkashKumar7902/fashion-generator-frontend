@@ -3,24 +3,18 @@ export type AuthorType = {
   name: string;
 };
 
-export interface BookProps {
+export interface ProductProps {
   id: string;
-  title: string;
-  type: string;
-  publishedAt: string;
-  stock: number;
-  price: string;
-  authors: { author: AuthorType }[];
-  averageRating: number;
-  ratings: number;
+  image_embedding: Array<number>;
+  json_data: string;
 }
 
-export interface shoppingCartItemProps extends BookProps {
+export interface shoppingCartItemProps extends ProductProps {
   quantity: number;
 }
 
 export type BookDetailProps = Omit<
-  BookProps,
+  ProductProps,
   'authors' | 'averageRating' | 'ratings'
 >;
 
